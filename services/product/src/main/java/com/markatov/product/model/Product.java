@@ -1,11 +1,18 @@
 package com.markatov.product.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
@@ -31,6 +38,6 @@ public class Product {
     private Country country;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Comment> comments;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Image> images;
+    @ElementCollection
+    private List<String> images;
 }

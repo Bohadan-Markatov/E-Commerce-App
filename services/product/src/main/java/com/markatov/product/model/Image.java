@@ -1,14 +1,14 @@
 package com.markatov.product.model;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
+@Document
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private String filePath;
+    private String id;
+    private byte[] image;
 }

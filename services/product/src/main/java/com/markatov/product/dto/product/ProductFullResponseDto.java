@@ -1,5 +1,6 @@
-package com.markatov.product.dto;
+package com.markatov.product.dto.product;
 
+import com.markatov.product.dto.image.ImageResponseDto;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,5 +16,5 @@ public class ProductFullResponseDto {
     private String brandName;
     private String countryName;
     private Double grade;
-    private List<byte[]> images;
+    private List<ImageResponseDto> images;
 }

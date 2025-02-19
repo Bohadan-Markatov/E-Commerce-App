@@ -1,7 +1,9 @@
 package com.markatov.product.mapper;
 
-import com.markatov.product.dto.ProductRequestDto;
-import com.markatov.product.dto.ProductShortResponseDto;
+import com.markatov.product.dto.image.ImageResponseDto;
+import com.markatov.product.dto.product.ProductFullResponseDto;
+import com.markatov.product.dto.product.ProductRequestDto;
+import com.markatov.product.dto.product.ProductShortResponseDto;
 import com.markatov.product.model.Image;
 import com.markatov.product.model.Product;
 import com.markatov.product.service.*;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +20,6 @@ public class ProductMapper {
     private final BrandService brandService;
     private final CountryService countryService;
     private final ImageService imageService;
-    private final ProductService productService;
     private final CommentService commentService;
 
     public Product toModel(ProductRequestDto dto) {
@@ -37,19 +39,34 @@ public class ProductMapper {
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setPrice(product.getPrice());
-        dto.setGrade(commentService.findAverageGradeByProductId(product.getId()));
-        dto.setCoverImage(imageService
-                .getImage(product
-                .getImages()
-                .getFirst())
-                .getImage());
+        dto.setGrade(product.getAverageGrade());
+        dto.setCoverImage(imageResponseDto(imageService
+                .getAllImages(product.getImages())
+                .getFirst()));
         return dto;
     }
 
-    private List<String> storeImagesAndGetIds(List<MultipartFile> files) {
-       return files.stream()
+    public ProductFullResponseDto toFullResponse(Product product) {
+        var dto = new ProductFullResponseDto();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setCategoryName(product.getCategory().getName());
+        dto.setBrandName(product.getBrand().getName());
+        dto.setCountryName(product.getCountry().getName());
+        dto.setGrade(product.getAverageGrade());
+        dto.setImages(imageService.getAllImages(product.getImages()).stream()
+                .map(this::imageResponseDto)
+                .collect(Collectors.toList()));
+        return dto;
+    }
+
+    private List<String> storeImagesAndGetIds(List<MultipartFile> images) {
+       return images.stream()
                .map(file -> {
                    var image = new Image();
+                   image.setMimeType(file.getContentType());
                    image.setImage(getImageBytes(file));
                    return imageService.saveImage(image);
                }).toList();
@@ -62,5 +79,12 @@ public class ProductMapper {
             throw new RuntimeException("Could not get image bytes"
                     + e.getMessage());
         }
+    }
+
+    private ImageResponseDto imageResponseDto(Image image) {
+        var dto = new ImageResponseDto();
+        dto.setMimeType(image.getMimeType());
+        dto.setImage(image.getImage());
+        return dto;
     }
 }

@@ -1,4 +1,4 @@
-package com.markatov.product.dto;
+package com.markatov.product.dto.product;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

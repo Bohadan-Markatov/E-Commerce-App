@@ -5,7 +5,17 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/services/product/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customer/CustomerApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/services/CustomerApplication/pom.xml" />
+        <option value="$USER_HOME$/Downloads/CustomerApplication/CustomerApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customer/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$USER_HOME$/Downloads/CustomerApplication/CustomerApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customer/CustomerApplication/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="NullableNotNullManager">

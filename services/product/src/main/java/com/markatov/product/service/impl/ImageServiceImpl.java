@@ -7,6 +7,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
@@ -21,5 +24,10 @@ public class ImageServiceImpl implements ImageService {
     public Image getImage(String imageId) {
         return imageRepository.findById(imageId).orElseThrow(()
                 -> new EntityNotFoundException("Could not find image with id: " + imageId));
+    }
+
+    @Override
+    public List<Image> getAllImages(List<String> imageIds) {
+        return imageRepository.findAllById(imageIds);
     }
 }

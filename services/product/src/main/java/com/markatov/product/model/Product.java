@@ -36,8 +36,20 @@ public class Product {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Country country;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<Comment> comments;
     @ElementCollection
     private List<String> images;
+
+    @Transient
+    public Double getAverageGrade() {
+        if (comments == null || comments.isEmpty()) {
+            return 0.0;
+        }
+        var averageGrade = comments.stream()
+                .mapToDouble(Comment::getGrade)
+                .average()
+                .orElse(0.0);
+        return Math.round(averageGrade * 10.0) / 10.0;
+    }
 }

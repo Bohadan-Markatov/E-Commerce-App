@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: 'mysql:9.2.0'
+    environment:
+      - 'MYSQL_DATABASE=customer'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_USER=myuser'
+      - 'MYSQL_TCP_PORT=3307'
+    ports:
+      - '3307:3307'
